@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class KolekcjaWalut {
-	private List<Waluta> list = new ArrayList<>();
+public class CurrencyCollection {
+	private List<Currency> list = new ArrayList<>();
 	private int totalWaluty;
 
-	public KolekcjaWalut() throws ParserConfigurationException, SAXException, IOException, ParseException {
+	public CurrencyCollection() throws ParserConfigurationException, SAXException, IOException, ParseException {
 		WebClient client = new WebClient();
 		totalWaluty = client.getTotalWaluty();
 
 		String[][] stringWaluty = client.getStringWaluty();
 		NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
 		for (int i = 0; i < totalWaluty; i++) {
-			list.add(new Waluta(stringWaluty[0][i], stringWaluty[1][i], format.parse(stringWaluty[2][i]).doubleValue(), Double.parseDouble(stringWaluty[3][i])));
+			list.add(new Currency(stringWaluty[0][i], stringWaluty[1][i], format.parse(stringWaluty[2][i]).doubleValue(), Double.parseDouble(stringWaluty[3][i])));
 		}
-		list.add(new Waluta("Polski zloty", "PLN", 1.0, 1.0));
+		list.add(new Currency("Polski zloty", "PLN", 1.0, 1.0));
 		totalWaluty+=1;
 
 	}
@@ -32,14 +32,14 @@ public class KolekcjaWalut {
 		return totalWaluty;
 	}
 
-	public List<Waluta> getAll() {
+	public List<Currency> getAll() {
 		return list;
 	}
 
-	public Waluta searchForWaluta(String kod) {
+	public Currency searchForWaluta(String kod) {
 		int i;
 		for (i = 0; i < totalWaluty; i++) {
-			if (list.get(i).getKodWaluty().equals(kod))
+			if (list.get(i).getCode().equals(kod))
 				break;
 		}
 		return list.get(i);
