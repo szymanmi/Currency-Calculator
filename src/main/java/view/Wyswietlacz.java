@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Scanner;
@@ -19,20 +20,33 @@ public class Wyswietlacz extends JFrame {
 		super("Simple Paint");
 		setSize(500, 300);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		String[] listOfCodes = kalkulator.getCodesList();
+
 
 		JPanel mainPanel = new JPanel();
+		//mainPanel.setLayout(layout);
 
-		String[] listOfCodes = kalkulator.getCodesList();
-		JComboBox currency1 = new JComboBox(listOfCodes);
-		JComboBox currency2 = new JComboBox(listOfCodes);
+		/////////////////////////////////////////////////////////////////////////////////////////
+		JPanel firstPanel = new JPanel();
+		GridLayout layout = new GridLayout(5, 1);
+		firstPanel.setLayout(layout);
+		JComboBox<String> currency1 = new JComboBox<>(listOfCodes);
+		JComboBox<String> currency2 = new JComboBox<>(listOfCodes);
 		JLabel info1 = new JLabel("Wybierz walute bazowa:");
 		JLabel info2 = new JLabel("Wybierz druga walute:");
-		mainPanel.add(info1);
-		mainPanel.add(currency1);
-		mainPanel.add(info2);
-		mainPanel.add(currency2);
-
+		JLabel info3 = new JLabel("Podaj wartosc:");
 		JTextField inputValue = new JTextField(15);
+		firstPanel.add(info1);
+		firstPanel.add(currency1);
+		firstPanel.add(info2);
+		firstPanel.add(currency2);
+		firstPanel.add(info3);
+		firstPanel.add(inputValue);
+		mainPanel.add(firstPanel);
+
+		/////////////////////////////////////////////////////////////////////////////////////////
+
+
 		mainPanel.add(inputValue);
 
 
@@ -44,7 +58,7 @@ public class Wyswietlacz extends JFrame {
 		mainPanel.add(result);
 
 
-		JComboBox currencyall = new JComboBox(listOfCodes);
+		JComboBox<String> currencyall = new JComboBox<>(listOfCodes);
 		mainPanel.add(currencyall);
 
 
@@ -56,6 +70,7 @@ public class Wyswietlacz extends JFrame {
 		JScrollPane scrollAll = new JScrollPane(listAll);
 		mainPanel.add(scrollAll);
 		add(mainPanel);
+
 		setVisible(true);
 
 
