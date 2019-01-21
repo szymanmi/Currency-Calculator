@@ -3,8 +3,10 @@ package controller;
 import model.CurrencyCollection;
 import org.xml.sax.SAXException;
 
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 
 public class Kalkulator {
@@ -31,6 +33,16 @@ public class Kalkulator {
 			list[i] = kolekcja.getAll().get(i).getCode();
 
 		return list;
+	}
+
+	public DefaultListModel<String> getListOfAllCurrencies(String code){
+		String[] list = new String[kolekcja.getTotalWaluty()];
+		DefaultListModel<String> model = new DefaultListModel<>();
+		DecimalFormat df = new DecimalFormat("####.##");
+		for (int i = 0; i < kolekcja.getTotalWaluty(); i++) {
+			model.addElement(kolekcja.getAll().get(i).getCode() + " " + df.format(kolekcja.searchForWaluta(code).getExchangeRate() / kolekcja.getAll().get(i).getExchangeRate()));
+		}
+		return model;
 	}
 
 }

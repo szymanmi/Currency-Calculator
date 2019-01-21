@@ -2,18 +2,14 @@ package view;
 
 import controller.Kalkulator;
 import model.Currency;
-import model.Spr;
-import model.SprTxt;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Scanner;
 
 public class Wyswietlacz extends JFrame {
 	private Kalkulator kalkulator = new Kalkulator();
@@ -27,11 +23,16 @@ public class Wyswietlacz extends JFrame {
 	private JButton przeliczButton;
 	private JLabel resultLbl;
 
-
+	private JLabel info4;
+	private JComboBox<String> currencyall;
+	private JButton showAll;
+	private JList<String> listAll;
+	private JScrollPane scrollAll;
 
 	public Wyswietlacz() throws ParserConfigurationException, SAXException, ParseException, IOException {
-		super("Simple Paint");
+		super("Kalkulator Walut");
 		setSize(500, 500);
+		setLookAndFeel();
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		String[] listOfCodes = kalkulator.getCodesList();
 
@@ -70,24 +71,26 @@ public class Wyswietlacz extends JFrame {
 		secondPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
-		JLabel info4 = new JLabel("Wybierz walute:");
-		JComboBox<String> currencyall = new JComboBox<>(listOfCodes);
-		JButton showAll = new JButton("Pokaz wszystkie");
-		JList<String> listAll = new JList<>(listOfCodes);
-		JScrollPane scrollAll = new JScrollPane(listAll);
+		info4 = new JLabel("Wybierz walute:");
+		currencyall = new JComboBox<>(listOfCodes);
+		showAll = new JButton("Pokaz wszystkie");
+		showAll.addActionListener(e -> showAllCurrencies());
+		listAll = new JList<>();
+		showAllCurrencies();
+		scrollAll = new JScrollPane(listAll);
 		listAll.setVisibleRowCount(7);
-
+		scrollAll.setPreferredSize(new Dimension(100, 140));
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weighty = 1;
-		secondPanel.add(info4,c);
+		secondPanel.add(info4, c);
 		c.gridy = 1;
 		secondPanel.add(currencyall, c);
 		c.gridy = 2;
 		secondPanel.add(showAll, c);
 		c.gridy = 3;
 		c.weighty = 7;
-		secondPanel.add(scrollAll,c);
+		secondPanel.add(scrollAll, c);
 
 		mainPanel.add(secondPanel);
 		add(mainPanel);
@@ -97,13 +100,17 @@ public class Wyswietlacz extends JFrame {
 
 	}
 
-	public void calculate2(){
-		double value = Double.parseDouble(inputField.getText());
-		String code1 = (String)currency1.getSelectedItem();
-		String code2 = (String)currency2.getSelectedItem();
+	public void calculate2() {
 
-		String result = String.valueOf(kalkulator.przelicz(code1, code2, value));
-		resultLbl.setText(result);
+		String code1 = (String) currency1.getSelectedItem();
+		String code2 = (String) currency2.getSelectedItem();
+
+		if (StringUtils.isNumeric(inputField.getText())) {
+			double value = Double.parseDouble(inputField.getText());
+			String result = String.valueOf(kalkulator.przelicz(code1, code2, value));
+			resultLbl.setText(result);
+		} else
+			JOptionPane.showMessageDialog(null, "Wprowadź poprawną liczbę całkowitą");
 
 	}
 
@@ -113,6 +120,21 @@ public class Wyswietlacz extends JFrame {
 			System.out.println(w.getName());
 			System.out.println(w.getCode());
 			System.out.println();
+		}
+
+		String code = (String) currencyall.getSelectedItem();
+		DefaultListModel<String> listOfCurrencies = kalkulator.getListOfAllCurrencies(code);
+		listAll.setModel(listOfCurrencies);
+
+
+	}
+
+	private void setLookAndFeel() {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+			SwingUtilities.updateComponentTreeUI(this);
+		} catch (Exception e) {
+			System.err.println("Nie potrafię wczytać systemowego wyglądu: " + e);
 		}
 	}
 

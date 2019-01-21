@@ -20,10 +20,10 @@ public class CurrencyCollection {
 
 		String[][] stringWaluty = client.getStringWaluty();
 		NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
+		list.add(new Currency("Polski zloty", "PLN", 1.0, 1.0));
 		for (int i = 0; i < totalWaluty; i++) {
 			list.add(new Currency(stringWaluty[0][i], stringWaluty[1][i], format.parse(stringWaluty[2][i]).doubleValue(), Double.parseDouble(stringWaluty[3][i])));
 		}
-		list.add(new Currency("Polski zloty", "PLN", 1.0, 1.0));
 		totalWaluty+=1;
 
 	}
