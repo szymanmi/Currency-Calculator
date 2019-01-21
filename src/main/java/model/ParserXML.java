@@ -1,5 +1,6 @@
 package model;
 
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -15,6 +16,8 @@ import java.io.StringReader;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
+
+import static org.junit.Assert.assertNotNull;
 
 public class ParserXML implements Parser {
 	private NodeList listOfWaluty;
@@ -87,4 +90,7 @@ public class ParserXML implements Parser {
 		}
 		return kursWaluty;
 	}
+
+
+
 }

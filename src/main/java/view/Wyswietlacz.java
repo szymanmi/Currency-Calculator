@@ -31,7 +31,7 @@ public class Wyswietlacz extends JFrame {
 
 	public Wyswietlacz() throws ParserConfigurationException, SAXException, ParseException, IOException {
 		super("Kalkulator Walut");
-		setSize(500, 500);
+		setSize(400, 300);
 		setLookAndFeel();
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		String[] listOfCodes = kalkulator.getCodesList();
@@ -52,7 +52,7 @@ public class Wyswietlacz extends JFrame {
 		inputField = new JTextField(15);
 		przeliczButton = new JButton("Przelicz");
 		przeliczButton.addActionListener(e -> calculate2());
-		resultLbl = new JLabel("fakewynik");
+		resultLbl = new JLabel("");
 
 		firstPanel.add(info1);
 		firstPanel.add(currency1);
@@ -116,12 +116,6 @@ public class Wyswietlacz extends JFrame {
 
 
 	public void showAllCurrencies() {
-		for (Currency w : kalkulator.getAll().getAll()) {
-			System.out.println(w.getName());
-			System.out.println(w.getCode());
-			System.out.println();
-		}
-
 		String code = (String) currencyall.getSelectedItem();
 		DefaultListModel<String> listOfCurrencies = kalkulator.getListOfAllCurrencies(code);
 		listAll.setModel(listOfCurrencies);
