@@ -108,7 +108,7 @@ public class Wyswietlacz extends JFrame {
 	}
 
 
-	public void showAll() {
+	public void showAllCurrencies() {
 		for (Currency w : kalkulator.getAll().getAll()) {
 			System.out.println(w.getName());
 			System.out.println(w.getCode());
