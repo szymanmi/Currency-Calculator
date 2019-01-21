@@ -48,8 +48,13 @@ public class Wyswietlacz extends JFrame {
 		mainPanel.add(currencyall);
 
 
-		JButton showAll = new JButton
+		JButton showAll = new JButton("Pokaz wszystkie");
+		mainPanel.add(showAll);
 
+
+		JList<String> listAll = new JList<>(listOfCodes);
+		JScrollPane scrollAll = new JScrollPane(listAll);
+		mainPanel.add(scrollAll);
 		add(mainPanel);
 		setVisible(true);
 
