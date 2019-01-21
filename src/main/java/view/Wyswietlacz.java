@@ -18,57 +18,64 @@ public class Wyswietlacz extends JFrame {
 
 	public Wyswietlacz() throws ParserConfigurationException, SAXException, ParseException, IOException {
 		super("Simple Paint");
-		setSize(500, 300);
+		setSize(500, 500);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		String[] listOfCodes = kalkulator.getCodesList();
 
 
 		JPanel mainPanel = new JPanel();
-		//mainPanel.setLayout(layout);
-
+		FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
+		mainPanel.setLayout(flowLayout);
 		/////////////////////////////////////////////////////////////////////////////////////////
 		JPanel firstPanel = new JPanel();
-		GridLayout layout = new GridLayout(5, 1);
-		firstPanel.setLayout(layout);
+		GridLayout layout1 = new GridLayout(8, 1);
+		firstPanel.setLayout(layout1);
 		JComboBox<String> currency1 = new JComboBox<>(listOfCodes);
 		JComboBox<String> currency2 = new JComboBox<>(listOfCodes);
 		JLabel info1 = new JLabel("Wybierz walute bazowa:");
 		JLabel info2 = new JLabel("Wybierz druga walute:");
 		JLabel info3 = new JLabel("Podaj wartosc:");
 		JTextField inputValue = new JTextField(15);
+		JButton przeliczButton = new JButton("Przelicz");
+		JLabel result = new JLabel("fakewynik");
+
 		firstPanel.add(info1);
 		firstPanel.add(currency1);
 		firstPanel.add(info2);
 		firstPanel.add(currency2);
 		firstPanel.add(info3);
 		firstPanel.add(inputValue);
+		firstPanel.add(przeliczButton);
+		firstPanel.add(result);
 		mainPanel.add(firstPanel);
 
 		/////////////////////////////////////////////////////////////////////////////////////////
 
+		JPanel secondPanel = new JPanel();
 
-		mainPanel.add(inputValue);
+		secondPanel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 
-
-		JButton przeliczButton = new JButton("Przelicz");
-		mainPanel.add(przeliczButton);
-
-
-		JLabel result = new JLabel("fakewynik");
-		mainPanel.add(result);
-
-
+		JLabel info4 = new JLabel("Wybierz walute:");
 		JComboBox<String> currencyall = new JComboBox<>(listOfCodes);
-		mainPanel.add(currencyall);
-
-
 		JButton showAll = new JButton("Pokaz wszystkie");
-		mainPanel.add(showAll);
-
-
 		JList<String> listAll = new JList<>(listOfCodes);
 		JScrollPane scrollAll = new JScrollPane(listAll);
-		mainPanel.add(scrollAll);
+		listAll.setVisibleRowCount(7);
+
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weighty = 1;
+		secondPanel.add(info4,c);
+		c.gridy = 1;
+		secondPanel.add(currencyall, c);
+		c.gridy = 2;
+		secondPanel.add(showAll, c);
+		c.gridy = 3;
+		c.weighty = 7;
+		secondPanel.add(scrollAll,c);
+
+		mainPanel.add(secondPanel);
 		add(mainPanel);
 
 		setVisible(true);
