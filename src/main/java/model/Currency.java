@@ -3,15 +3,14 @@ package model;
 public class Currency {
 	private String name;
 	private String code;
-	private double converter;
 	private double exchangeRate;
+	private double converter;
 
-
-	public Currency(String name, String code, double converter, double exchangeRate) {
+	public Currency(String name, String code, double exchangeRate, double converter) {
 		this.name = name;
 		this.code = code;
-		this.converter = converter;
 		this.exchangeRate = exchangeRate;
+		this.converter = converter;
 	}
 
 	public String getCode() {

@@ -9,12 +9,25 @@ import org.xml.sax.SAXException;
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Scanner;
 
 public class Wyswietlacz extends JFrame {
 	private Kalkulator kalkulator = new Kalkulator();
+
+	private JComboBox<String> currency1;
+	private JComboBox<String> currency2;
+	private JLabel info1;
+	private JLabel info2;
+	private JLabel info3;
+	private JTextField inputField;
+	private JButton przeliczButton;
+	private JLabel resultLbl;
+
+
 
 	public Wyswietlacz() throws ParserConfigurationException, SAXException, ParseException, IOException {
 		super("Simple Paint");
@@ -30,23 +43,24 @@ public class Wyswietlacz extends JFrame {
 		JPanel firstPanel = new JPanel();
 		GridLayout layout1 = new GridLayout(8, 1);
 		firstPanel.setLayout(layout1);
-		JComboBox<String> currency1 = new JComboBox<>(listOfCodes);
-		JComboBox<String> currency2 = new JComboBox<>(listOfCodes);
-		JLabel info1 = new JLabel("Wybierz walute bazowa:");
-		JLabel info2 = new JLabel("Wybierz druga walute:");
-		JLabel info3 = new JLabel("Podaj wartosc:");
-		JTextField inputValue = new JTextField(15);
-		JButton przeliczButton = new JButton("Przelicz");
-		JLabel result = new JLabel("fakewynik");
+		currency1 = new JComboBox<>(listOfCodes);
+		currency2 = new JComboBox<>(listOfCodes);
+		info1 = new JLabel("Wybierz walute bazowa:");
+		info2 = new JLabel("Wybierz druga walute:");
+		info3 = new JLabel("Podaj wartosc:");
+		inputField = new JTextField(15);
+		przeliczButton = new JButton("Przelicz");
+		przeliczButton.addActionListener(e -> calculate2());
+		resultLbl = new JLabel("fakewynik");
 
 		firstPanel.add(info1);
 		firstPanel.add(currency1);
 		firstPanel.add(info2);
 		firstPanel.add(currency2);
 		firstPanel.add(info3);
-		firstPanel.add(inputValue);
+		firstPanel.add(inputField);
 		firstPanel.add(przeliczButton);
-		firstPanel.add(result);
+		firstPanel.add(resultLbl);
 		mainPanel.add(firstPanel);
 
 		/////////////////////////////////////////////////////////////////////////////////////////
@@ -83,25 +97,16 @@ public class Wyswietlacz extends JFrame {
 
 	}
 
-	public void calculate() {
-		String kod1, kod2;
-		Scanner scanner = new Scanner(System.in);
-		Spr sprawdzacz = new SprTxt();
-		do {
-			System.out.println("podaj kod pierwszej waluty");
-			kod1 = scanner.next();
-		} while (!sprawdzacz.sprawdz(kalkulator.getAll(), kod1));
+	public void calculate2(){
+		double value = Double.parseDouble(inputField.getText());
+		String code1 = (String)currency1.getSelectedItem();
+		String code2 = (String)currency2.getSelectedItem();
 
-		do {
-			System.out.println("podaj kod drugiej waluty");
-			kod2 = scanner.next();
-		} while (!sprawdzacz.sprawdz(kalkulator.getAll(), kod2));
+		String result = String.valueOf(kalkulator.przelicz(code1, code2, value));
+		resultLbl.setText(result);
 
-		System.out.println("Podaj wartosc");
-		int val = scanner.nextInt();
-
-		System.out.println(kalkulator.przelicz(kod1, kod2, val));
 	}
+
 
 	public void showAll() {
 		for (Currency w : kalkulator.getAll().getAll()) {

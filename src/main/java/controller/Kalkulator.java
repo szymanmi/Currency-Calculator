@@ -16,6 +16,8 @@ public class Kalkulator {
 	}
 
 	public double przelicz(String w1, String w2, double val) {
+		System.out.println(kolekcja.searchForWaluta(w1).getExchangeRate());
+		System.out.println(kolekcja.searchForWaluta(w2).getExchangeRate());
 		return val * kolekcja.searchForWaluta(w1).getExchangeRate() / kolekcja.searchForWaluta(w2).getExchangeRate();
 	}
 
